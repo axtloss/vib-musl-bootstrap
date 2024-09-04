@@ -1,0 +1,14 @@
+name: busybox
+type: shell
+sources:
+  - type: tar
+    url: https://busybox.net/downloads/busybox-1.36.1.tar.bz2
+    checksum: b8cc24c9574d809e7279c3be349795c5d5ceb6fdf19ca709f80cde50e47de314
+commands:
+  - cd /sources/busybox/busybox-1.36.1
+  - mv /busyboxconfig .config
+  - make CC=musl-gcc
+  - make CONFIG_PREFIX=/installroot install
+  - install -Dm755 busybox /installroot/usr/bin/busybox
+  - cd /installroot/usr/bin
+  - ./busybox --install -s .

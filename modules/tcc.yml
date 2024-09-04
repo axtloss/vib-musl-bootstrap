@@ -1,0 +1,11 @@
+name: tcc
+type: shell
+sources:
+  - type: tar
+    url: http://download.savannah.gnu.org/releases/tinycc/tcc-0.9.27.tar.bz2
+    checksum: de23af78fca90ce32dff2dd45b3432b2334740bb9bb7b05bf60fdbfc396ceb9c
+commands:
+  - cd /sources/tcc/tcc-0.9.27
+  - ./configure --prefix /usr --config-musl
+  - make CC="musl-gcc"
+  - make install DESTDIR=/installroot

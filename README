@@ -1,0 +1,6 @@
+bootstrap busybox+musl rootfs using vib
+
+build:
+vib compile ./recipe.yml
+
+build requires pacman plugin from https://github.com/axtloss/vib-plugins

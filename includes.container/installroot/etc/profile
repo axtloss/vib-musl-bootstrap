@@ -1,0 +1,32 @@
+append_path () {
+    case ":$PATH:" in
+        *:"$1":*)
+            ;;
+        *)
+            PATH="${PATH:+$PATH:}$1"
+    esac
+}
+
+append_path '/usr/local/sbin'
+append_path '/usr/local/bin'
+append_path '/usr/bin'
+
+export PATH
+
+unset -v GLOBSORT
+
+# Unload our profile API functions
+unset -f append_path
+
+if test "$BASH" &&\
+   test "$PS1" &&\
+   test -z "$POSIXLY_CORRECT" &&\
+   test "${0#-}" != sh &&\
+   test -r /etc/bash.bashrc
+then
+	. /etc/bash.bashrc
+fi
+
+unset TERMCAP
+unset MANPATH
+

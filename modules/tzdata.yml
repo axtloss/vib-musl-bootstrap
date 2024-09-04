@@ -1,0 +1,20 @@
+name: tzdata
+type: shell
+sources:
+  - type: tar
+    url: https://www.iana.org/time-zones/repository/releases/tzcode2024a.tar.gz
+    checksum: 80072894adff5a458f1d143e16e4ca1d8b2a122c9c5399da482cb68cba6a1ff8
+  - type: tar
+    url: https://www.iana.org/time-zones/repository/releases/tzdata2024a.tar.gz
+    checksum: 0d0434459acbd2059a7a8da1f3304a84a86591f6ed69c6248fffa502b6edffe3
+commands:
+  - cd /sources/tzdata/
+  - sed -i "s:sbin:bin:g" Makefile
+  - make
+  - make DESTDIR="/installroot" install
+  - ./zic -b fat -d /installroot/usr/share/zoneinfo africa antarctica asia australasia europe northamerica southamerica etcetera backward factory
+  - ./zic -b fat -d /installroot/usr/share/zoneinfo/posix africa antarctica asia australasia europe northamerica southamerica etcetera backward factory
+  - ./zic -b fat -d /installroot/usr/share/zoneinfo/right africa antarctica asia australasia europe northamerica southamerica etcetera backward factory
+  - ./zic -b fat -d /installroot/usr/share/zoneinfo -p America/New_York
+  - install -m644 -t /installroot/usr/share/zoneinfo iso3166.tab leap-seconds.list zone1970.tab zone.tab SECURITY
+  - rm /installroot/etc/localtime

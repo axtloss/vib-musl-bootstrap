@@ -1,0 +1,11 @@
+name: linux-api-headers
+type: shell
+sources:
+  - type: tar
+    url: https://www.kernel.org/pub/linux/kernel/v6.x/linux-6.10.7.tar.xz
+    checksum: 900d567ff01824708ce24c3b37faaef03e6f6145411dd447a6ff2edc8c5db3a9
+commands:
+  - cd /sources/linux-api-headers/linux-6.10.7
+  - make mrproper
+  - make INSTALL_HDR_PATH="/installroot/usr" headers_install
+

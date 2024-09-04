@@ -1,0 +1,41 @@
+name: busymusl
+id: busymusl
+
+stages:
+- id: build
+  base: library/archlinux:latest
+  singlelayer: false
+  labels:
+    maintainer: hello
+  modules:
+    - name: booo
+      type: shell
+      commands:
+        - pacman -Syu --noconfirm
+    - name: meowsers
+      type: includes
+      includes:
+        - modules/build-depends.yml
+        - modules/musl.yml
+        - modules/linux-api-headers.yml
+        - modules/busybox.yml
+        - modules/tcc.yml
+    - name: prepare
+      type: shell
+      commands:
+        - cp /installroot/usr/bin/busybox /bin/sh
+- id: final
+  base: scratch
+  singlelayer: false
+  labels:
+    maintainer: meow
+  copy:
+    - from: build
+      srcdst:
+        /installroot: /
+        /bin: /bin
+  modules:
+    - name: clean
+      type: shell
+      commands:
+        - /usr/bin/busybox rm -rf /sources /installroot /busyboxconfig

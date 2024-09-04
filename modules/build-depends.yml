@@ -1,0 +1,19 @@
+name: build-depends
+type: pacman
+packages:
+  - "base-devel"
+  - "make"
+  - "autoconf"
+  - "automake"
+  - "binutils"
+  - "bison"
+  - "gcc"
+  - "gawk"
+  - "patch"
+  - "rsync"
+  - "gd"
+  - "git"
+  - "python"
+  - "musl"
+  - "linux-api-headers"
+  - "kernel-headers-musl"

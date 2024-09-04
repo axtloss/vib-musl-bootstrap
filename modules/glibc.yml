@@ -1,0 +1,25 @@
+name: glibc
+type: shell
+sources:
+  - type: git
+    url: https://sourceware.org/git/glibc.git
+    commit: aa533d58ff12e27771d9c960a727d74992a3f2a3
+    branch: master
+commands:
+  - cd /sources/glibc/
+  - mkdir glibc-build
+  - cd glibc-build
+  - echo "slibdir=/usr/lib" >> configparms
+  - echo "rtlddir=/usr/lib" >> configparms
+  - echo "sbindir=/usr/bin" >> configparms
+  - echo "rootsbindir=/usr/bin" >> configparms
+  - ../configure --libdir=/usr/lib --libexecdir=/usr/lib --enable-cet --prefix=/usr --with-headers=/usr/include --enable-bind-now --enable-fortify-source --enable-kernel=4.4 --enable-stack-protector=strong --enable-systemtap --disable-nscd --disable-profile --disable-werror
+  - make -O
+  - cd ..
+  - make -C glibc-build DESTDIR="/installroot" install
+  - rm /installroot/etc/ld.so.cache
+  - rm -f /installroot/usr/bin/{tzselect,zdump,zic}
+  - cd /sources/glibc/glibc-*
+  - install -dm755 /installroot/usr/lib/locale
+  - install -m644 posix/gai.conf /installroot/gai.conf
+  - cp -r /sources/glibc/glibc-*/locales/usr/lib/locale/C.utf8 -t /installroot/usr/lib/locale
